@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.waimung.luoxun.water.mapper")
+@MapperScan("com.waimung.luoxun.water")
 public class WmLuoxunWaterApplication {
 
 	public static void main(String[] args) {
