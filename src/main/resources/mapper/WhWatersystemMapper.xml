@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.waimung.luoxun.water.dao.WhWatersystemDao">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, device_code, device_name, area_id, locate_x, locate_y, system_type, state, dsnum, pressure, time, threshold, upper_value, lower_value, device_ex_des, comments, dump_energy, work_start_time, projectid, water_mapid, hydranttype, buildingid, position, waterType, pressureState, rssi, version, insertTime, updateTime, work_stop_time, timestick, user_id, image_name, brand, is_flag, read_flag, create_time, modify_user, create_user, modify_time, update_cnt, del_flg, point_type, pic_scale, card_number, is_normal, send_flag, is_online, ja_model_id
+    </sql>
+
+</mapper>

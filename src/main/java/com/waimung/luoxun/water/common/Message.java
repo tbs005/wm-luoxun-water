@@ -107,40 +107,40 @@ public abstract class Message<Operation extends MessageBody> {
 
 		log.info("数据type:{},num:{},crc:{},end:{}", type, num, crc, end);
 
-		DataType dataType = DataType.getByType(type);
-		switch (dataType) {
-		case COMPONENT_STATE:
-			log.info("接收到请求[{}]-[{}].", dataType.getType(), dataType.getDescription());
-			if (datas.length <= 0 || datas.length != ((ComponentState.length) * num)) {
-				log.info("请求[{}]长度不合法.", dataType.getDescription());
-				return;
-			}
-			ComponentStateOperation componentStateOperation = new ComponentStateOperation();
-			componentStateOperation.setSrcAddres(header.getSrcAddress());
-			componentStateOperation.setType(type);
-			componentStateOperation.setNum(num);
-			componentStateOperation.setDataType(dataType);
-			componentStateOperation.decode(datas);
-			this.messageBody = (Operation) componentStateOperation;
-			break;
-		case COMPONENT_ANALOG_QUANTITY:
-			log.info("接收到请求[{}]-[{}].", dataType.getType(), dataType.getDescription());
-			if (datas.length <= 0 || datas.length != (AnalogQuantity.length * num)) {
-				log.info("请求[{}]长度不合法.", dataType.getDescription());
-				return;
-			}
-			AnalogQuantityOperation analogQuantityOperation = new AnalogQuantityOperation();
-			analogQuantityOperation.setSrcAddres(header.getSrcAddress());
-			analogQuantityOperation.setType(type);
-			analogQuantityOperation.setNum(num);
-			analogQuantityOperation.setDataType(dataType);
-			analogQuantityOperation.decode(datas);
-			this.messageBody = (Operation) analogQuantityOperation;
-			break;
-		default:
-			log.info("未实现的操作，数据单元类型：{}，数据描述：{}", dataType.getType(), dataType.getDescription());
-			break;
-		}
+//		DataType dataType = DataType.getByType(type);
+//		switch (dataType) {
+//		case COMPONENT_STATE:
+//			log.info("接收到请求[{}]-[{}].", dataType.getType(), dataType.getDescription());
+//			if (datas.length <= 0 || datas.length != ((ComponentState.length) * num)) {
+//				log.info("请求[{}]长度不合法.", dataType.getDescription());
+//				return;
+//			}
+//			ComponentStateOperation componentStateOperation = new ComponentStateOperation();
+//			componentStateOperation.setSrcAddres(header.getSrcAddress());
+//			componentStateOperation.setType(type);
+//			componentStateOperation.setNum(num);
+//			componentStateOperation.setDataType(dataType);
+//			componentStateOperation.decode(datas);
+//			this.messageBody = (Operation) componentStateOperation;
+//			break;
+//		case COMPONENT_ANALOG_QUANTITY:
+//			log.info("接收到请求[{}]-[{}].", dataType.getType(), dataType.getDescription());
+//			if (datas.length <= 0 || datas.length != (AnalogQuantity.length * num)) {
+//				log.info("请求[{}]长度不合法.", dataType.getDescription());
+//				return;
+//			}
+//			AnalogQuantityOperation analogQuantityOperation = new AnalogQuantityOperation();
+//			analogQuantityOperation.setSrcAddres(header.getSrcAddress());
+//			analogQuantityOperation.setType(type);
+//			analogQuantityOperation.setNum(num);
+//			analogQuantityOperation.setDataType(dataType);
+//			analogQuantityOperation.decode(datas);
+//			this.messageBody = (Operation) analogQuantityOperation;
+//			break;
+//		default:
+//			log.info("未实现的操作，数据单元类型：{}，数据描述：{}", dataType.getType(), dataType.getDescription());
+//			break;
+//		}
 
 		log.info("解析后的数据：header{},body{},type{},num{},crc{},end{}", gson.toJson(messageHeader),
 				gson.toJson(messageBody), type, num, crc, end);
