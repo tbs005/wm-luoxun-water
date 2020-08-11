@@ -16,7 +16,7 @@ public class MessageHeader {
 	private int auxiliaryLevel;//1字节
 	private int rssi;//1字节
 	private byte[] rawBytes;
-	private int lenBytes;//
+	private int dataLen;//
 	
 	public int getLen() {
 		return len;
@@ -96,10 +96,11 @@ public class MessageHeader {
 		byteBuf.readBytes(dst);
 		this.start = dst;
 	}
-	public int getLenBytes() {
-		return lenBytes;
+	public int getDataLen() {
+		return dataLen;
 	}
-	public void setLenBytes(int lenBytes) {
-		this.lenBytes = lenBytes;
+	public void setDataLen(int dataLen) {
+		this.dataLen = dataLen;
 	}
+
 }

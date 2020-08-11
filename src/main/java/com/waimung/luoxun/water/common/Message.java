@@ -75,7 +75,7 @@ public abstract class Message<Operation extends MessageBody> {
 		log.info("MessageHeader -length:{},data:[{}]", headOriginal.length, ByteUtil.hexString(headOriginal));
 		
 		byte[] crcBytes = Arrays.copyOfRange(originalBytes, 2, originalBytes.length - 3);
-		log.info("crcBytes -length:{},data:[{}]", crcBytes.length, ByteUtil.byteArrToHexString(crcBytes));
+		log.info("crcBytes -length:{},data:[{}]", crcBytes.length, ByteUtil.hexString(crcBytes));
 		log.info("crc is :{}",ByteUtil.byte2ToUnsignedInt(ByteUtil.crc(crcBytes,crcBytes.length)));
 		
 		MessageHeader header = new MessageHeader();
@@ -88,11 +88,11 @@ public abstract class Message<Operation extends MessageBody> {
 		int num = ByteUtil.byte2ToUnsignedInt(byteBuf.readByte());
 
 		if(header.Length <= 0) {
-			throw new DecoderException("数据格式错误，长度不够:" + header.getLenBytes());
+			throw new DecoderException("数据格式错误，长度不够:" + header.getDataLen());
 		}
-		byte[] datas = new byte[header.getDataUnitLegth() - 2];
+		byte[] datas = new byte[header.getDataLen() - 2];
 		byteBuf.readBytes(datas);
-		log.info("数据16进制:{}，长度:{}", ByteUtil.byteArrToHexString(datas), datas.length);
+		log.info("数据16进制:{}，长度:{}", ByteUtil.hexString(datas), datas.length);
 
 		int crc = ByteUtil.byte2ToUnsignedInt(byteBuf.readByte());
 
