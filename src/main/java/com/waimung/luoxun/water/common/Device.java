@@ -3,7 +3,11 @@ package com.waimung.luoxun.water.common;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Device {
+	private static final Logger log = LoggerFactory.getLogger(Device.class);
 	public static final int length = 12;
 	private byte[] status;
 	private BitState status0;
@@ -25,7 +29,7 @@ public class Device {
 	private int bs;//基站
 	private int rsrp;//信号强度dbm
 	private int snr;//信噪比
-	private double val;//水压Mpa 0.001Mpa,水位米 0.001米
+	private int val;//水压Mpa 0.001Mpa,水位米 0.001米
 	private int  waterTemperature;//水温
 	private int  ambientTemperature;//环境温度
 	private String statusString;
@@ -62,6 +66,7 @@ public class Device {
 
 
 	public void setStatus(byte[] status) {
+		log.info("setStatus is :{}",ByteUtil.hexString(status));
 		this.status = status;
 	}
 
@@ -235,16 +240,36 @@ public class Device {
 		this.bs = bs;
 	}
 
+	public void setBs(byte[] bytes) {
+		log.info("setBs is :{}",ByteUtil.hexString(bytes));
+		byte[] dst = new byte[4];
+		dst[0] =bytes[0]; 
+		dst[1] =bytes[1]; 
+		dst[2] =0x00; 
+		dst[3] =0x00; 
+		int tmp = ByteUtil.bytes2Int(dst);
+		this.bs = tmp;
+	}
 
 	public int getRsrp() {
 		return rsrp;
 	}
 
 
+	public void setRsrp(byte[] bytes) {
+		log.info("setRsrp is :{}",ByteUtil.hexString(bytes));
+		byte[] dst = new byte[4];
+		dst[0] =bytes[0]; 
+		dst[1] =0x00; 
+		dst[2] =0x00; 
+		dst[3] =0x00; 
+		int tmp = ByteUtil.bytes2Int(dst);
+		this.rsrp = tmp;
+	}
+
 	public void setRsrp(int rsrp) {
 		this.rsrp = rsrp;
 	}
-
 
 	public int getSnr() {
 		return snr;
@@ -255,16 +280,36 @@ public class Device {
 		this.snr = snr;
 	}
 
-
-	public double getVal() {
+	public void setSnr(byte[] bytes) {
+		log.info("setSnr is :{}",ByteUtil.hexString(bytes));
+		byte[] dst = new byte[4];
+		dst[0] =bytes[0]; 
+		dst[1] =0x00; 
+		dst[2] =0x00; 
+		dst[3] =0x00; 
+		int tmp = ByteUtil.bytes2Int(dst);
+		this.snr = tmp;
+	}
+	
+	public int getVal() {
 		return val;
 	}
 
 
-	public void setVal(double val) {
+	public void setVal(int val) {
 		this.val = val;
 	}
 
+	public void setVal(byte[] bytes) {
+		log.info("setVal is :{}",ByteUtil.hexString(bytes));
+		byte[] dst = new byte[4];
+		dst[0] =bytes[0]; 
+		dst[1] =bytes[1]; 
+		dst[2] =0x00; 
+		dst[3] =0x00; 
+		int tmp = ByteUtil.bytes2Int(dst);
+		this.val = tmp;
+	}
 
 	public int getWaterTemperature() {
 		return waterTemperature;
@@ -275,6 +320,16 @@ public class Device {
 		this.waterTemperature = waterTemperature;
 	}
 
+	public void setWaterTemperature(byte[] bytes) {
+		log.info("setWaterTemperature is :{}",ByteUtil.hexString(bytes));
+		byte[] dst = new byte[4];
+		dst[0] =bytes[0]; 
+		dst[1] =bytes[1]; 
+		dst[2] =0x00; 
+		dst[3] =0x00; 
+		int tmp = ByteUtil.bytes2Int(dst);
+		this.waterTemperature = tmp;
+	}
 
 	public int getAmbientTemperature() {
 		return ambientTemperature;
@@ -285,6 +340,16 @@ public class Device {
 		this.ambientTemperature = ambientTemperature;
 	}
 
+	public void setAmbientTemperature(byte[] bytes) {
+		log.info("setAmbientTemperature is :{}",ByteUtil.hexString(bytes));
+		byte[] dst = new byte[4];
+		dst[0] =bytes[0]; 
+		dst[1] =bytes[1]; 
+		dst[2] =0x00; 
+		dst[3] =0x00; 
+		int tmp = ByteUtil.bytes2Int(dst);
+		this.ambientTemperature = tmp;
+	}
 
 	public String getStatusString() {
 		return statusString;

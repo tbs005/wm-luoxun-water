@@ -1,5 +1,8 @@
 package com.waimung.luoxun.water.common;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import io.netty.buffer.ByteBuf;
 
 public class MessageHeader {
@@ -13,12 +16,21 @@ public class MessageHeader {
 	private int serialNum;//2字节
 	private int deviceType;//2字节
 	private byte status;//1字节
+	private BitState status0;
+	private BitState status1;
+	private BitState status2;
+	private BitState status3;
+	private BitState status4;
+	private BitState status5;
+	private BitState status6;
+	private BitState status7;
 	private int batteryLevel;//1字节
 	private int auxiliaryLevel;//1字节
 	private int rssi;//1字节
 	private byte[] rawBytes;
 	private byte[] crc;
 	private byte[] datas;
+	private String dateTime;
 	
 	public int getLen() {
 		return len;
@@ -66,6 +78,8 @@ public class MessageHeader {
 		byteBuf.readBytes(dst);
 		int tmp = ByteUtil.bytes2Int(dst);
 		this.time = tmp;
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		this.dateTime = sdf.format(new Date(tmp*1000L));
 	}
 	public int getDeviceType() {
 		return deviceType;
@@ -180,5 +194,59 @@ public class MessageHeader {
 	}
 	public void setDatas(byte[] datas) {
 		this.datas = datas;
+	}
+	public String getDateTime() {
+		return dateTime;
+	}
+	public void setDateTime(String dateTime) {
+		this.dateTime = dateTime;
+	}
+	public BitState getStatus0() {
+		return status0;
+	}
+	public void setStatus0(BitState status0) {
+		this.status0 = status0;
+	}
+	public BitState getStatus1() {
+		return status1;
+	}
+	public void setStatus1(BitState status1) {
+		this.status1 = status1;
+	}
+	public BitState getStatus2() {
+		return status2;
+	}
+	public void setStatus2(BitState status2) {
+		this.status2 = status2;
+	}
+	public BitState getStatus3() {
+		return status3;
+	}
+	public void setStatus3(BitState status3) {
+		this.status3 = status3;
+	}
+	public BitState getStatus4() {
+		return status4;
+	}
+	public void setStatus4(BitState status4) {
+		this.status4 = status4;
+	}
+	public BitState getStatus5() {
+		return status5;
+	}
+	public void setStatus5(BitState status5) {
+		this.status5 = status5;
+	}
+	public BitState getStatus6() {
+		return status6;
+	}
+	public void setStatus6(BitState status6) {
+		this.status6 = status6;
+	}
+	public BitState getStatus7() {
+		return status7;
+	}
+	public void setStatus7(BitState status7) {
+		this.status7 = status7;
 	}
 }

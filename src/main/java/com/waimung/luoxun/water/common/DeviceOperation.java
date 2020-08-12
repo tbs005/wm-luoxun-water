@@ -1,5 +1,6 @@
 package com.waimung.luoxun.water.common;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,7 +10,7 @@ import com.google.gson.Gson;
 
 
 public class DeviceOperation extends Operation {
-	private static final Logger log = LoggerFactory.getLogger(Message.class);
+	private static final Logger log = LoggerFactory.getLogger(DeviceOperation.class);
 	private String deviceId;
 	private DeviceType deviceType;
 	private Device[] deviceArrays = new Device[32];
@@ -23,14 +24,20 @@ public class DeviceOperation extends Operation {
 
 	@Override
 	public void decode(byte[] datas) throws Exception {
-		log.info("处理数据:[{}],长度:[{}].", ByteUtil.hexString(datas), datas.length);
+		log.info("处理-[{}][{}]上报数据:[{}],长度:[{}].",deviceType.getType(), deviceType.getDeviceName(), ByteUtil.hexString(datas), datas.length);
 		List<byte[]> byteArrayList = ByteUtil.getSplitByteArrayToList(1, Device.length, datas);
 		int index = 1;
 		int arrIdx = 0;
 		Device device = null;
 		for (byte[] bytes : byteArrayList) {
 			device = new Device();
-
+			device.setStatus(Arrays.copyOfRange(bytes, 0, 2));
+			device.setBs(Arrays.copyOfRange(bytes, 2, 4));
+			device.setRsrp(Arrays.copyOfRange(bytes, 4, 5));
+			device.setSnr(Arrays.copyOfRange(bytes, 5, 6));
+			device.setVal(Arrays.copyOfRange(bytes, 6, 8));
+			device.setWaterTemperature(Arrays.copyOfRange(bytes, 8, 10));
+			device.setAmbientTemperature(Arrays.copyOfRange(bytes, 10, 12));
 			log.info(
 					"解析[{}]第[{}]条数据，传感器状态:[{}],基站:[{}],信号强度:[{}],信噪比:[{}],水位/水压:[{}],水温:[{}],环境温度:[{}]",
 					deviceType.getDeviceName(), index, device.getStatusString(),device.getBs(),device.getRsrp(),device.getSnr(),device.getVal(),device.getWaterTemperature(),device.getAmbientTemperature());

@@ -43,7 +43,7 @@ public abstract class Message<Operation extends MessageBody> {
 		header.setStart(byteBuf);
 		header.setLen(byteBuf);
 		
-		if((header.getLen()-header.Length) <14) {
+		if((header.getLen()-header.Length+2) <14) {
 			throw new DecoderException("数据格式错误，不够34位长度:" + header.getLen());
 		}
 		
@@ -75,7 +75,7 @@ public abstract class Message<Operation extends MessageBody> {
 		DeviceOperation deviceOperation = null;
 		switch (deviceType) {
 		case WATER_LEVEL:
-			log.info("接收到请求[{}]-[{}].", deviceType.getType(), deviceType.getDeviceName());
+			log.info("接收到-[{}][{}]上报数据.", deviceType.getType(), deviceType.getDeviceName());
 			if (datas.length <= 0 || datas.length != (Device.length * 1)) {
 				log.info("请求[{}]长度不合法.", deviceType.getDeviceName());
 				return;
@@ -119,12 +119,13 @@ public abstract class Message<Operation extends MessageBody> {
 	}
 
 	public static void main(String[] args) {
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date=new Date(0);
 		long time = date.getTime();
 		System.out.println(sdf.format(date));
 		System.out.println(sdf.format(new Date(time)));
 		System.out.println(sdf.format(new Date(1585066141000L)));
 		System.out.println(sdf.format(new Date(time+1585066141000L)));
+		System.out.println(sdf.format(new Date(1585066141*1000L)));
 	}
 }
