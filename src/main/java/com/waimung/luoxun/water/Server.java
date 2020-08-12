@@ -71,7 +71,7 @@ public class Server implements ApplicationRunner {
 				protected void initChannel(SocketChannel ch) throws Exception {
 					ChannelPipeline pipeline = ch.pipeline();
 					pipeline.addLast("debug", debugLogHandler);
-					pipeline.addLast("lengthDecoder", new LengthFieldBasedFrameDecoder(ByteOrder.LITTLE_ENDIAN,1054, 2, 1, 9, 0, true));
+					pipeline.addLast("lengthDecoder", new LengthFieldBasedFrameDecoder(ByteOrder.LITTLE_ENDIAN,1054, 2, 1, -1, 0, true));
 					pipeline.addLast("protocolDecoder", new Decoder());
 					pipeline.addLast("protocolEncoder", new Encoder());
 					
