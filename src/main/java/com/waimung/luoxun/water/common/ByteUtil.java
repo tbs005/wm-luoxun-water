@@ -164,4 +164,8 @@ public class ByteUtil {
 		}
 		return (byte) (sum & 0xff);
 	}
+	
+    static int getTwoBytes(byte[] input, int firstByte) {
+        return ((input[firstByte] & 0xFF) << 8) +  (input[firstByte + 1] & 0xFF);
+    }
 }

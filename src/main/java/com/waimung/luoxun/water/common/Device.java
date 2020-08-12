@@ -2,6 +2,7 @@ package com.waimung.luoxun.water.common;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -248,6 +249,10 @@ public class Device {
 		dst[2] =0x00; 
 		dst[3] =0x00; 
 		int tmp = ByteUtil.bytes2Int(dst);
+		
+		BigInteger bigInteger = new BigInteger(dst);
+		log.info("setBs BigInteger value is :{}",bigInteger.intValue());
+		
 		this.bs = tmp;
 	}
 
@@ -264,6 +269,9 @@ public class Device {
 		dst[2] =0x00; 
 		dst[3] =0x00; 
 		int tmp = ByteUtil.bytes2Int(dst);
+		
+		BigInteger bigInteger = new BigInteger(bytes);
+		log.info("setRsrp BigInteger value is :{}",bigInteger.intValue());
 		this.rsrp = tmp;
 	}
 
@@ -288,6 +296,10 @@ public class Device {
 		dst[2] =0x00; 
 		dst[3] =0x00; 
 		int tmp = ByteUtil.bytes2Int(dst);
+		
+		
+		BigInteger bigInteger = new BigInteger(bytes);
+		log.info("setSnr BigInteger value is :{}",bigInteger.intValue());
 		this.snr = tmp;
 	}
 	
@@ -308,6 +320,10 @@ public class Device {
 		dst[2] =0x00; 
 		dst[3] =0x00; 
 		int tmp = ByteUtil.bytes2Int(dst);
+		
+		BigInteger bigInteger = new BigInteger(bytes);
+		log.info("setVal BigInteger value is :{}",bigInteger.intValue());
+		
 		this.val = tmp;
 	}
 
@@ -322,12 +338,8 @@ public class Device {
 
 	public void setWaterTemperature(byte[] bytes) {
 		log.info("setWaterTemperature is :{}",ByteUtil.hexString(bytes));
-		byte[] dst = new byte[4];
-		dst[0] =bytes[0]; 
-		dst[1] =bytes[1]; 
-		dst[2] =0x00; 
-		dst[3] =0x00; 
-		int tmp = ByteUtil.bytes2Int(dst);
+		BigInteger bigInteger = new BigInteger(bytes);
+		int tmp = bigInteger.intValue();
 		this.waterTemperature = tmp;
 	}
 
@@ -342,12 +354,8 @@ public class Device {
 
 	public void setAmbientTemperature(byte[] bytes) {
 		log.info("setAmbientTemperature is :{}",ByteUtil.hexString(bytes));
-		byte[] dst = new byte[4];
-		dst[0] =bytes[0]; 
-		dst[1] =bytes[1]; 
-		dst[2] =0x00; 
-		dst[3] =0x00; 
-		int tmp = ByteUtil.bytes2Int(dst);
+		BigInteger bigInteger = new BigInteger(bytes);
+		int tmp = bigInteger.intValue();
 		this.ambientTemperature = tmp;
 	}
 
