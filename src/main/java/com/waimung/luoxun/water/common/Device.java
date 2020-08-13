@@ -68,6 +68,8 @@ public class Device {
 
 	public void setStatus(byte[] status) {
 		log.info("setStatus is :{}",ByteUtil.hexString(status));
+		log.info("statusString is :{}",ByteUtil.byteArrToBinStr(status));
+		this.statusString = ByteUtil.byteArrToBinStr(status); 
 		this.status = status;
 	}
 
@@ -249,10 +251,6 @@ public class Device {
 		dst[2] =0x00; 
 		dst[3] =0x00; 
 		int tmp = ByteUtil.bytes2Int(dst);
-		
-		BigInteger bigInteger = new BigInteger(dst);
-		log.info("setBs BigInteger value is :{}",bigInteger.intValue());
-		
 		this.bs = tmp;
 	}
 
@@ -269,9 +267,6 @@ public class Device {
 		dst[2] =0x00; 
 		dst[3] =0x00; 
 		int tmp = ByteUtil.bytes2Int(dst);
-		
-		BigInteger bigInteger = new BigInteger(bytes);
-		log.info("setRsrp BigInteger value is :{}",bigInteger.intValue());
 		this.rsrp = tmp;
 	}
 
@@ -296,10 +291,6 @@ public class Device {
 		dst[2] =0x00; 
 		dst[3] =0x00; 
 		int tmp = ByteUtil.bytes2Int(dst);
-		
-		
-		BigInteger bigInteger = new BigInteger(bytes);
-		log.info("setSnr BigInteger value is :{}",bigInteger.intValue());
 		this.snr = tmp;
 	}
 	
@@ -320,10 +311,6 @@ public class Device {
 		dst[2] =0x00; 
 		dst[3] =0x00; 
 		int tmp = ByteUtil.bytes2Int(dst);
-		
-		BigInteger bigInteger = new BigInteger(bytes);
-		log.info("setVal BigInteger value is :{}",bigInteger.intValue());
-		
 		this.val = tmp;
 	}
 

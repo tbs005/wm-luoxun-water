@@ -70,4 +70,5 @@ public class DeviceOperation extends Operation {
 	public void setDeviceArrays(Device[] deviceArrays) {
 		this.deviceArrays = deviceArrays;
 	}
+	
 }

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
+import org.apache.tomcat.util.buf.HexUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +26,28 @@ public abstract class Message<Operation extends MessageBody> {
 	public abstract Class<Operation> getMessageBodyDecodeClass(int type);
 
 	public void encode(ByteBuf byteBuf) {
-		//应答报文
+		//前导
+		byte[] start = new byte[2];
+		start[0]=0x55;
+		start[1]=0x7A;
+		byteBuf.writeBytes(start);
+		//包长
+		int len = 18;
+		byteBuf.writeByte(len);
+		//端口
+		byte port = (byte) (messageHeader.getPortByte() +1);
+		byteBuf.writeByte(port);
+		//设备ID
+		byteBuf.writeBytes(messageHeader.getDeviceIdBytes());
+		//时间
+		int timeSecds = (int) (System.currentTimeMillis()/1000);
+		byteBuf.writeBytes(ByteUtil.intToByteArray(timeSecds));
+		//数包序列号 2 
+		byteBuf.writeBytes(messageHeader.getSerialNumBytes());
+		//设备类型 2
+		byteBuf.writeBytes(messageHeader.getDeviceTypeBytes());
+		//CRC-16 校验 2
+		byteBuf.writeBytes(messageHeader.getCrc());
 	}
 
 	public void decode(ByteBuf byteBuf) throws Exception {
@@ -122,10 +144,27 @@ public abstract class Message<Operation extends MessageBody> {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date=new Date(0);
 		long time = date.getTime();
+		System.out.println(time);
+		System.out.println(new Date().getTime() + "");
+		
+		int timeSecds = (int) (System.currentTimeMillis()/1000);
+		System.out.println(timeSecds);
 		System.out.println(sdf.format(date));
 		System.out.println(sdf.format(new Date(time)));
 		System.out.println(sdf.format(new Date(1585066141000L)));
 		System.out.println(sdf.format(new Date(time+1585066141000L)));
 		System.out.println(sdf.format(new Date(1585066141*1000L)));
+		
+		System.out.println(System.currentTimeMillis());
+		
+		byte[] dst = new byte[2];
+		dst[0] =0x0a; 
+		dst[1] =0x1a; 
+		System.out.println(ByteUtil.byteArrToBinStr(dst));
+		
+		byte port = 0x63;
+		System.out.println((int)port);
+		System.out.println(port + 1);
+		System.out.println();
 	}
 }

@@ -165,7 +165,17 @@ public class ByteUtil {
 		return (byte) (sum & 0xff);
 	}
 	
-    static int getTwoBytes(byte[] input, int firstByte) {
-        return ((input[firstByte] & 0xFF) << 8) +  (input[firstByte + 1] & 0xFF);
+	  /**
+     * int到byte[] 由低位到高位
+     * @param i 需要转换为byte数组的整行值。
+     * @return byte数组
+     */
+    public static byte[] intToByteArray(int i) {
+        byte[] result = new byte[4];
+        result[3] = (byte)((i >> 24) & 0xFF);
+        result[2] = (byte)((i >> 16) & 0xFF);
+        result[1] = (byte)((i >> 8) & 0xFF);
+        result[0] = (byte)(i & 0xFF);
+        return result;
     }
 }

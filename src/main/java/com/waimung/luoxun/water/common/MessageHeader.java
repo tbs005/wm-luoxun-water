@@ -8,13 +8,17 @@ import io.netty.buffer.ByteBuf;
 public class MessageHeader {
 	public static final int Length = 20;
 	public static final int dataLen = 12;//
-	private byte[] start;// @，2字节
+	private byte[] start;// 0xAA,0X75 2字节
 	private int len;// 1字节
 	private int port;// 1字节
+	private byte portByte;//1字节
 	private int deviceId;// 4字节
+	private byte[] deviceIdBytes;//4字节
 	private int time;// 4字节
 	private int serialNum;//2字节
+	private byte[] serialNumBytes;//
 	private int deviceType;//2字节
+	private byte[] deviceTypeBytes;//
 	private byte status;//1字节
 	private BitState status0;
 	private BitState status1;
@@ -49,7 +53,8 @@ public class MessageHeader {
 		this.port = port;
 	}
 	public void setPort(ByteBuf byteBuf) {
-		int tmp = ByteUtil.byte2ToUnsignedInt(byteBuf.readByte());
+		this.portByte = byteBuf.readByte();
+		int tmp = ByteUtil.byte2ToUnsignedInt(portByte);
 		this.port = tmp;
 	}
 	public int getDeviceId() {
@@ -59,11 +64,18 @@ public class MessageHeader {
 		this.deviceId = deviceId;
 	}
 	public void setDeviceId(ByteBuf byteBuf) {
+		byte[] dBytes = new byte[4];
+		dBytes[0] =byteBuf.readByte(); 
+		dBytes[1] =byteBuf.readByte(); 
+		dBytes[2] =byteBuf.readByte(); 
+		dBytes[3] =byteBuf.readByte(); 
+		this.deviceIdBytes = dBytes;
+		
 		byte[] dst = new byte[4];
-		dst[3] =byteBuf.readByte(); 
-		dst[2] =byteBuf.readByte(); 
-		dst[1] =byteBuf.readByte(); 
-		dst[0] =byteBuf.readByte(); 
+		dst[3] =dBytes[0]; 
+		dst[2] =dBytes[1]; 
+		dst[1] =dBytes[2]; 
+		dst[0] =dBytes[3]; 
 		int tmp = ByteUtil.bytes2Int(dst);
 		this.deviceId = tmp;
 	}
@@ -88,9 +100,13 @@ public class MessageHeader {
 		this.deviceType = deviceType;
 	}
 	public void setDeviceType(ByteBuf byteBuf) {
+		this.deviceTypeBytes = new byte[2];
+		deviceTypeBytes[0]=byteBuf.readByte();
+		deviceTypeBytes[1]=byteBuf.readByte();
+		
 		byte[] dst = new byte[4];
-		dst[0] =byteBuf.readByte(); 
-		dst[1] =byteBuf.readByte(); 
+		dst[0] =deviceTypeBytes[0]; 
+		dst[1] =deviceTypeBytes[1]; 
 		dst[2] =0x00; 
 		dst[3] =0x00; 
 		int tmp = ByteUtil.bytes2Int(dst);
@@ -109,9 +125,14 @@ public class MessageHeader {
 		this.serialNum = serialNum;
 	}
 	public void setSerialNum(ByteBuf byteBuf) {
+		
+		this.serialNumBytes = new byte[2];
+		serialNumBytes[0] = byteBuf.readByte();
+		serialNumBytes[1] = byteBuf.readByte();
+		
 		byte[] dst = new byte[4];
-		dst[0] =byteBuf.readByte(); 
-		dst[1] =byteBuf.readByte(); 
+		dst[0] =serialNumBytes[0]; 
+		dst[1] =serialNumBytes[1]; 
 		dst[2] =0x00; 
 		dst[3] =0x00; 
 		int tmp = ByteUtil.bytes2Int(dst);
@@ -248,5 +269,29 @@ public class MessageHeader {
 	}
 	public void setStatus7(BitState status7) {
 		this.status7 = status7;
+	}
+	public byte getPortByte() {
+		return portByte;
+	}
+	public void setPortByte(byte portByte) {
+		this.portByte = portByte;
+	}
+	public byte[] getDeviceIdBytes() {
+		return deviceIdBytes;
+	}
+	public void setDeviceIdBytes(byte[] deviceIdBytes) {
+		this.deviceIdBytes = deviceIdBytes;
+	}
+	public byte[] getSerialNumBytes() {
+		return serialNumBytes;
+	}
+	public void setSerialNumBytes(byte[] serialNumBytes) {
+		this.serialNumBytes = serialNumBytes;
+	}
+	public byte[] getDeviceTypeBytes() {
+		return deviceTypeBytes;
+	}
+	public void setDeviceTypeBytes(byte[] deviceTypeBytes) {
+		this.deviceTypeBytes = deviceTypeBytes;
 	}
 }
